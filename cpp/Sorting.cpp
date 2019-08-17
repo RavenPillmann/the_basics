@@ -103,9 +103,6 @@ vector<long> merge_sort(vector<long> vec) {
 
 // Helper for quick_sort, this function will move all 
 int partition(vector<long>& vec, int left_ind, int right_ind) {
-	// TODO: 
-	// Get the partition
-	// Then swap things around the partition
 
 	// Pick the partition. In this case, its the element between left and right indices
 	long pivot = vec[floor(left_ind + right_ind) / 2];
@@ -129,6 +126,7 @@ int partition(vector<long>& vec, int left_ind, int right_ind) {
 		}
 	}
 
+	// At this point, left_ind will be the sorted position for the pivot element. Everything left of it will be less than pivot, everything right greater than pivot
 	return left_ind;
 }
 
@@ -146,6 +144,8 @@ vector<long> quick_sort_helper(vector<long>& vec, int left_ind, int right_ind) {
 }
 
 /**
+* 	O(n^2) timing if pivot is poorly chosen (at extreme ends of the values), O(n log(n)) if well chosen
+*	O(1) space for this implementation. We swap in place.
 *	We choose a pivot. Then, we move all items smaller than pivot to left, and larger than pivot to right, such that pivot ends up in its correct spot. Do this recursively.
 */
 vector<long> quick_sort(vector<long> vec) {
