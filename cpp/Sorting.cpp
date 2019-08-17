@@ -15,6 +15,7 @@ void print_output(vector<long> output) {
 	cout << endl;
 }
 
+
 /**
 *	O(n^2) time, O(1) space (In place swaps)
 *	While unsorted, swap each neighboring element if they are out of order
@@ -36,6 +37,7 @@ vector<long> bubble_sort(vector<long> vec) {
 
 	return vec;
 }
+
 
 // Helper function for merge_sort
 vector<long> merge(vector<long> first_half, vector<long> second_half) {
@@ -68,6 +70,7 @@ vector<long> merge(vector<long> first_half, vector<long> second_half) {
 	return vec;
 }
 
+
 /**
 *	O(n log n) time
 *	First, divide the vector into pieces. Then, merge the pieces together 
@@ -97,29 +100,50 @@ vector<long> merge_sort(vector<long> vec) {
 	return sorted_vec;
 }
 
+
 void quick_sort() {
 
 }
+
 
 void radix_sort() {
 
 }
 
-void selection_sort() {
 
+/**
+*	O(n^2) time, O(1) Space
+*	Linearly scan the vector for the smallest element, move to the front. Repeat for the second smallest, etc
+*/
+vector<long> selection_sort(vector<long> vec) {
+	int n = vec.size();
+	int index_of_smallest;
+
+	for (int i=0; i<n-1; i++) {
+		index_of_smallest = i;
+
+		for (int j=i+1; j<n; j++) {
+			if (vec[j] < vec[index_of_smallest]) {
+				index_of_smallest = j;
+			}
+		}
+
+		swap(vec[i], vec[index_of_smallest]);
+	}
+
+	return vec;
 }
 
-void insertion_sort() {
-
-}
  
 int main() {
 	vector<long> vec {-100, 10, -12312, 45, 1, 22, 2, 54, 1000, 5, 24, 17, 0};
 
-	cout << "Bubble Sort" << endl;
+	cout << "Bubble Sort..." << endl;
 	print_output(bubble_sort(vec));
-	cout << "Merge Sort" << endl;
+	cout << "Merge Sort..." << endl;
 	print_output(merge_sort(vec));
+	cout << "Selection Sort..." << endl;
+	print_output(selection_sort(vec));
 
 	return 0;
 }
