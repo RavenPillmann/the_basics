@@ -101,8 +101,55 @@ vector<long> merge_sort(vector<long> vec) {
 }
 
 
-void quick_sort() {
+// Helper for quick_sort, this function will move all 
+int partition(vector<long>& vec, int left_ind, int right_ind) {
+	// TODO: 
+	// Get the partition
+	// Then swap things around the partition
 
+	// Pick the partition. In this case, its the element between left and right indices
+	long pivot = vec[floor(left_ind + right_ind) / 2];
+
+	while (left_ind <= right_ind) {
+
+		// Skip all the elements that are less than the pivot on the left side. We want those to stay there
+		while (vec[left_ind] < pivot) {
+			left_ind += 1;
+		}
+
+		// Skip all the elements greater than the pivot on the right side. We want those to stay there
+		while (vec[right_ind] > pivot) {
+			right_ind -= 1;
+		}
+
+		if (left_ind <= right_ind) {
+			swap(vec[left_ind], vec[right_ind]);
+			left_ind += 1;
+			right_ind -= 1;
+		}
+	}
+
+	return left_ind;
+}
+
+
+vector<long> quick_sort_helper(vector<long>& vec, int left_ind, int right_ind) {
+	int index = partition(vec, left_ind, right_ind);
+
+	if (left_ind < index - 1) {
+		quick_sort_helper(vec, left_ind, index - 1);
+	} if (index < right_ind) {
+		quick_sort_helper(vec, index, right_ind);
+	}
+
+	return vec;
+}
+
+/**
+*	We choose a pivot. Then, we move all items smaller than pivot to left, and larger than pivot to right, such that pivot ends up in its correct spot. Do this recursively.
+*/
+vector<long> quick_sort(vector<long> vec) {
+	return quick_sort_helper(vec, 0, vec.size() - 1);
 }
 
 
@@ -144,6 +191,9 @@ int main() {
 	print_output(merge_sort(vec));
 	cout << "Selection Sort..." << endl;
 	print_output(selection_sort(vec));
+	cout << "Quick Sort..." << endl;
+	print_output(quick_sort(vec));
+
 
 	return 0;
 }
