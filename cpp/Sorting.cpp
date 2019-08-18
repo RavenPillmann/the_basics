@@ -205,12 +205,12 @@ vector<long> radix_sort(vector<long> vec) {
 		}
 	}
 
-	while (m < max_value) {
+	do {
 		positive_vec = counting_sort(positive_vec, m, n);
 		negative_vec = counting_sort(negative_vec, m, n);
 		m *= 10;
 		n *= 10;
-	}
+	} while (m < max_value);
 
 	// Reverse the negative vec
 	reverse(negative_vec.begin(), negative_vec.end());
