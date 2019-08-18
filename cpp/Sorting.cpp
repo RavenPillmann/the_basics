@@ -153,8 +153,79 @@ vector<long> quick_sort(vector<long> vec) {
 }
 
 
-void radix_sort() {
+// Helper for radix sort
+vector<long> counting_sort(vector<long> vec, long m, long n) {
+	vector<vector<long>> buckets (10, vector<long> ());
 
+	for (int i=0; i<vec.size(); i++) {
+		// Get the bucket value. This is done by moding the element by m and dividing by n, which gets the value of the digit of interest
+		long bucket_index = (vec[i] % m) / n;
+
+		buckets[bucket_index].push_back(vec[i]);
+	}
+
+	vector<long> sorted_vec;
+
+	for (int i=0; i<10; i++) {
+		for (int j=0; j<buckets[i].size(); j++) {
+			sorted_vec.push_back(buckets[i][j]);
+		}
+	}
+
+	return sorted_vec;
+}
+
+
+/**
+*	O(nk), where n is the number of elements and k is the maximum number of digits for each element.
+*	The idea of radix sort is that, for each pass, we run counting_sort on one of the digits. For the 
+* 	first pass, we sort elements into buckets based on their least significant digit. For the second
+*	pass, we look at the second least significant, and so on. After we put the elements in their buckets,
+*	we just step through the buckets in order to reassemble the vector. In this way, the elements are sorted.
+*	Note that, because modulo is involved, we handle the negative elements separately from the positive.
+*/
+vector<long> radix_sort(vector<long> vec) {
+	long m = 10;
+	long n = 1;
+
+	long max_value = vec[0];
+	for (int i=1; i<vec.size(); i++) {
+		if (abs(vec[i]) > max_value) max_value = abs(vec[i]);
+	}
+
+	// One solution to deal with negatives in radix sort is to sort the positive and negative separately. The key to this is to flip the sign on the negative values, radix sort, and then reverse the order, flip the sign back, and prepend to the positive values
+	vector<long> positive_vec;
+	vector<long> negative_vec;
+
+	for (int i=0; i<vec.size(); i++) {
+		if (vec[i] > 0) { 
+			positive_vec.push_back(vec[i]);
+		} else {
+			negative_vec.push_back(abs(vec[i]));
+		}
+	}
+
+	while (m < max_value) {
+		positive_vec = counting_sort(positive_vec, m, n);
+		negative_vec = counting_sort(negative_vec, m, n);
+		m *= 10;
+		n *= 10;
+	}
+
+	// Reverse the negative vec
+	reverse(negative_vec.begin(), negative_vec.end());
+
+	// Flip the negative_vec (full of positive values) into negative values
+	for (int i=0; i<negative_vec.size(); i++) {
+		negative_vec[i] = -negative_vec[i];
+	}
+
+	// Extend the negative_vec
+	for (int i=0; i<positive_vec.size(); i++) {
+		negative_vec.push_back(positive_vec[i]);
+	}	
+
+	return negative_vec;
 }
 
 
@@ -193,6 +264,8 @@ int main() {
 	print_output(selection_sort(vec));
 	cout << "Quick Sort..." << endl;
 	print_output(quick_sort(vec));
+	cout << "Radix Sort..." << endl;
+	print_output(radix_sort(vec));
 
 
 	return 0;
