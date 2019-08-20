@@ -118,11 +118,31 @@ int main() {
 	cout << "Value of hell: " << trie.lookup_key("hell") << endl;
 	cout << "Value of goodbye: " << trie.lookup_key("goodbye") << endl;
 	cout << "Value of goodstuff: " << trie.lookup_key("goodstuff") << endl;
+	cout << endl;
 
 	trie.remove_key("goodbye");
 
+	cout << "Value of hello (after removing goodbye): " << trie.lookup_key("hello") << endl;
+	cout << "Value of hell (after removing goodbye): " << trie.lookup_key("hell") << endl;
 	cout << "Value of goodbye (after removing goodbye): " << trie.lookup_key("goodbye") << endl;
 	cout << "Value of goodstuff (after removing goodbye): " << trie.lookup_key("goodstuff") << endl;
+	cout << endl;
 
+	trie.remove_key("were");
+
+	cout << "Value of hello (after removing were): " << trie.lookup_key("hello") << endl;
+	cout << "Value of hell (after removing were): " << trie.lookup_key("hell") << endl;
+	cout << "Value of goodbye (after removing were): " << trie.lookup_key("goodbye") << endl;
+	cout << "Value of goodstuff (after removing were): " << trie.lookup_key("goodstuff") << endl;
+	cout << endl;
+
+	trie.add_key_value("goodbye", 56);
+
+	cout << "Value of hello (after adding goodbye back): " << trie.lookup_key("hello") << endl;
+	cout << "Value of hell (after adding goodbye back): " << trie.lookup_key("hell") << endl;
+	cout << "Value of goodbye (after adding goodbye back): " << trie.lookup_key("goodbye") << endl;
+	cout << "Value of goodstuff (after adding goodbye back): " << trie.lookup_key("goodstuff") << endl;
+	cout << endl;
+	
 	return 0;
 }
