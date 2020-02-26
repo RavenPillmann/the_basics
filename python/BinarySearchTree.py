@@ -1,10 +1,12 @@
 # Binary Search Tree
+from collections import deque
 
 class Node(object):
 	val = None
 	left = None
 	right = None
 	parent = None
+	visited = False
 
 	def __init__(self, val):
 		self.val = val
@@ -16,12 +18,17 @@ class Node(object):
 		parentNode = self.parent
 		return parentNode.left != None and self.val == parentNode.left.val
 
+	def print(self):
+		print(self.val)
+
 
 class BST(object):
 	root = None
 
+
 	def __init__(self, root):
 		self.root = root
+
 
 	def insert(self, val):
 		pointer = self.root
@@ -41,6 +48,7 @@ class BST(object):
 					return
 				else:
 					pointer = pointer.right
+
 
 	def findMinimum(self, node):
 		if node.left == None:
@@ -91,17 +99,65 @@ class BST(object):
 			print(node.val)
 			self.inOrderTraversal(node.right)
 
+
 	def postOrderTraversal(self, node):
 		if node != None:
 			self.postOrderTraversal(node.left)
 			self.postOrderTraversal(node.right)
 			print(node.val)
 
+
 	def preOrderTraveral(self, node):
 		if node != None:
 			print(node.val)
 			self.preOrderTraveral(node.left)
 			self.preOrderTraveral(node.right)
+
+
+	def resetToUnvisited(self, node):
+		if node != None:
+			self.inOrderTraversal(node.left)
+			node.visited = False
+			self.inOrderTraversal(node.right)
+
+
+	def bfs(self):
+		queue = deque()
+		queue.append(self.root)
+
+		while len(queue):
+			node = queue.popleft()
+			node.visited = True
+			node.print()
+			if node.left != None and not node.left.visited:
+				queue.append(node.left)
+			if node.right != None and not node.right.visited:
+				queue.append(node.right)
+
+		print("End of BFS")
+
+
+	def dfs(self):
+		node = self.root
+		queue = deque()
+		queue.append(node)
+
+		self._dfsRecursive(queue)
+
+		print("End of DFS")
+
+
+	def _dfsRecursive(self, queue):
+		node = queue.pop()
+		print(node.val)
+		node.visited = True
+
+		if node.left != None and not node.left.visited:
+			queue.append(node.left)
+			self._dfsRecursive(queue)
+		if node.right != None and not node.right.visited:
+			queue.append(node.right)
+			self._dfsRecursive(queue)
 
 
 def main():
@@ -115,6 +171,12 @@ def main():
 
 	bst.inOrderTraversal(bst.root)
 	print("<EOT>")
+
+	bst.bfs()
+
+	bst.resetToUnvisited(bst.root)
+
+	bst.dfs()
 
 	bst.remove(bst.root, 4)
 	bst.remove(bst.root, 9)
