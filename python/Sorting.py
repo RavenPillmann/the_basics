@@ -47,6 +47,39 @@ def mergeSort(lst):
 	return merge(mergeSort(left), mergeSort(right))
 
 
+def partition(lst, leftInd, rightInd):
+	pivot = lst[math.floor((leftInd + rightInd) / 2)]
+
+	while leftInd <= rightInd:
+		while lst[leftInd] < pivot:
+			leftInd += 1
+		while lst[rightInd] > pivot:
+			rightInd -= 1
+
+		if leftInd <= rightInd:
+			val = lst[rightInd]
+			lst[rightInd] = lst[leftInd]
+			lst[leftInd] = val
+			leftInd += 1
+			rightInd -= 1
+
+	return leftInd
+
+
+def _quickSortHelper(lst, leftInd, rightInd):
+	ind = partition(lst, leftInd, rightInd)
+
+	if leftInd < ind - 1:
+		_quickSortHelper(lst, leftInd, ind-1)
+	if ind < rightInd:
+		_quickSortHelper(lst, ind, rightInd)
+
+
+def quickSort(lst):
+	_quickSortHelper(lst, 0, len(lst)-1)
+	return lst
+
+
 def main():
 	lst = []
 	lst.append(41)
@@ -57,7 +90,8 @@ def main():
 	lst.append(-12)
 	lst.append(2)
 
-	sortedList = mergeSort(lst)
+	# sortedList = mergeSort(lst)
+	sortedList = quickSort(lst)
 
 	print(sortedList)
 
