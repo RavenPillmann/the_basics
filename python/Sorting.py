@@ -81,14 +81,7 @@ def quickSort(lst):
 
 
 def main():
-	lst = []
-	lst.append(41)
-	lst.append(12)
-	lst.append(90)
-	lst.append(100)
-	lst.append(43)
-	lst.append(-12)
-	lst.append(2)
+	lst = [41, 12, 90, 100, 43, -12, 2]
 
 	# sortedList = mergeSort(lst)
 	sortedList = quickSort(lst)
